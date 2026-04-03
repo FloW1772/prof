@@ -1,30 +1,23 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import ReactMarkdown from 'react-markdown'
 import { useMistral } from '../hooks/useMistral'
+import { getSystemPromptByMode, LEARNING_MODES } from '../services/prompts'
 import { useAppContext } from '../store/AppContext'
 import styles from './Learn.module.css'
-
-function buildSystemPrompt(subjectName) {
-  return [
-    'Tu es un professeur pedagogue et bienveillant.',
-    `La matiere courante est: ${subjectName}.`,
-    'Donne des explications claires, avec exemples concrets et etapes simples.',
-    'Utilise du Markdown lisible (titres courts, listes, code si utile).',
-  ].join(' ')
-}
 
 function Learn() {
   const { selectedSubject } = useAppContext()
   const { send, isLoading, error } = useMistral()
   const [messages, setMessages] = useState([])
   const [input, setInput] = useState('')
+  const [mode, setMode] = useState('chat-libre')
   const endOfMessagesRef = useRef(null)
 
   const activeSubject = selectedSubject?.name || 'General'
 
   const systemPrompt = useMemo(
-    () => buildSystemPrompt(activeSubject),
-    [activeSubject]
+    () => getSystemPromptByMode(mode, activeSubject),
+    [mode, activeSubject]
   )
 
   useEffect(() => {
@@ -82,6 +75,23 @@ function Learn() {
         <p className={styles.subtitle}>
           Matiere active: <strong>{activeSubject}</strong>
         </p>
+        <div className={styles.modeRow}>
+          <label className={styles.modeLabel} htmlFor="learning-mode">
+            Mode d apprentissage
+          </label>
+          <select
+            id="learning-mode"
+            className={styles.modeSelect}
+            value={mode}
+            onChange={(event) => setMode(event.target.value)}
+          >
+            {LEARNING_MODES.map((item) => (
+              <option key={item.id} value={item.id}>
+                {item.label}
+              </option>
+            ))}
+          </select>
+        </div>
       </header>
 
       <div className={styles.messages}>
