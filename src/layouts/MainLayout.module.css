@@ -1,0 +1,26 @@
+.wrapper {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  background: linear-gradient(140deg, #f6f8fb 0%, #eef2ff 100%);
+}
+
+.sidebar {
+  border-right: 1px solid #d4d9e2;
+  background-color: #ffffff;
+}
+
+.content {
+  padding: 2rem;
+}
+
+@media (max-width: 900px) {
+  .wrapper {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    border-right: none;
+    border-bottom: 1px solid #d4d9e2;
+  }
+}
