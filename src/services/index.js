@@ -1,1 +1,1 @@
-export {}
+export { sendMessage } from './mistral'
