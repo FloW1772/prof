@@ -16,3 +16,8 @@
   color: #334155;
   line-height: 1.6;
 }
+
+.current {
+  margin: 1rem 0 0;
+  color: #1e293b;
+}
