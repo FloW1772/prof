@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useMistral } from '../hooks/useMistral'
+import { applySm2Review, ensureCardScheduling, isDueToday, sortByDueFirst } from '../services'
 import styles from './Flashcards.module.css'
 
 const STORAGE_KEY = 'prof.flashcards'
@@ -17,6 +18,11 @@ function normalizeFlashcards(raw) {
       id: `card-${Date.now()}-${index}`,
       front: item.front.trim(),
       back: item.back.trim(),
+      score: 0,
+      intervalDays: 0,
+      easinessFactor: 2.5,
+      repetitions: 0,
+      nextReviewDate: new Date().toISOString(),
     }))
     .filter((item) => item.front.length > 0 && item.back.length > 0)
 
@@ -60,7 +66,7 @@ function Flashcards() {
 
       const parsed = JSON.parse(saved)
       if (parsed && Array.isArray(parsed.cards)) {
-        setCards(parsed.cards)
+        setCards(parsed.cards.map((card) => ensureCardScheduling(card)))
         setSavedTopic(typeof parsed.topic === 'string' ? parsed.topic : '')
       }
     } catch {
@@ -78,6 +84,7 @@ function Flashcards() {
   }, [cards, savedTopic])
 
   const canGenerate = useMemo(() => topic.trim().length > 0 && !isLoading, [topic, isLoading])
+  const orderedCards = useMemo(() => sortByDueFirst(cards), [cards])
 
   const handleGenerate = async () => {
     const normalizedTopic = topic.trim()
@@ -121,6 +128,16 @@ function Flashcards() {
         ? previous.filter((id) => id !== cardId)
         : [...previous, cardId]
     )
+  }
+
+  const handleReview = (cardId, quality) => {
+    setCards((previous) =>
+      previous.map((card) =>
+        card.id === cardId ? applySm2Review(card, quality) : card
+      )
+    )
+
+    setFlippedIds((previous) => previous.filter((id) => id !== cardId))
   }
 
   const handleClearCards = () => {
@@ -184,27 +201,67 @@ function Flashcards() {
         </div>
       ) : (
         <div className={styles.grid}>
-          {cards.map((card) => {
+          {orderedCards.map((card) => {
             const isFlipped = flippedIds.includes(card.id)
+            const dueToday = isDueToday(card.nextReviewDate)
+
             return (
-              <button
-                key={card.id}
-                type="button"
-                className={styles.card}
-                onClick={() => toggleCard(card.id)}
-                aria-pressed={isFlipped}
-              >
+              <article key={card.id} className={styles.card}>
+                <button
+                  type="button"
+                  className={`${styles.flipButton} ${isFlipped ? styles.flipButtonHidden : ''}`}
+                  onClick={() => toggleCard(card.id)}
+                  aria-pressed={isFlipped}
+                >
+                  {dueToday && <span className={styles.dueBadge}>À réviser</span>}
+                </button>
                 <div className={`${styles.cardInner} ${isFlipped ? styles.flipped : ''}`}>
                   <article className={`${styles.face} ${styles.front}`}>
                     <h3 className={styles.faceLabel}>Question</h3>
                     <p className={styles.faceText}>{card.front}</p>
+                    <p className={styles.metaInfo}>Clique pour retourner</p>
                   </article>
                   <article className={`${styles.face} ${styles.back}`}>
                     <h3 className={styles.faceLabel}>Reponse</h3>
                     <p className={styles.faceText}>{card.back}</p>
+                    <p className={styles.metaInfo}>
+                      Score: {card.score}/5 · Intervalle: {card.intervalDays} jour(s)
+                    </p>
+                    <div className={styles.reviewActions}>
+                      <button
+                        type="button"
+                        className={styles.hardButton}
+                        onClick={(event) => {
+                          event.stopPropagation()
+                          handleReview(card.id, 1)
+                        }}
+                      >
+                        Difficile
+                      </button>
+                      <button
+                        type="button"
+                        className={styles.mediumButton}
+                        onClick={(event) => {
+                          event.stopPropagation()
+                          handleReview(card.id, 3)
+                        }}
+                      >
+                        Moyen
+                      </button>
+                      <button
+                        type="button"
+                        className={styles.easyButton}
+                        onClick={(event) => {
+                          event.stopPropagation()
+                          handleReview(card.id, 5)
+                        }}
+                      >
+                        Facile
+                      </button>
+                    </div>
                   </article>
                 </div>
-              </button>
+              </article>
             )
           })}
         </div>

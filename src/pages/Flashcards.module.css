@@ -123,12 +123,38 @@
 }
 
 .card {
+  position: relative;
+  perspective: 1200px;
+  text-align: left;
+}
+
+.flipButton {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
   border: none;
   background: transparent;
   padding: 0;
-  perspective: 1200px;
-  text-align: left;
   cursor: pointer;
+}
+
+.flipButtonHidden {
+  pointer-events: none;
+}
+
+.dueBadge {
+  position: absolute;
+  top: 0.6rem;
+  right: 0.6rem;
+  z-index: 6;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.5rem;
+  border-radius: 999px;
+  background: #fee2e2;
+  color: #991b1b;
+  font-size: 0.75rem;
+  font-weight: 700;
 }
 
 .cardInner {
@@ -178,6 +204,44 @@
   margin: 0;
   color: #0f172a;
   line-height: 1.45;
+}
+
+.metaInfo {
+  margin: 0;
+  color: #334155;
+  font-size: 0.85rem;
+}
+
+.reviewActions {
+  display: flex;
+  gap: 0.45rem;
+  margin-top: auto;
+}
+
+.reviewActions button {
+  flex: 1;
+  border: none;
+  border-radius: 0.55rem;
+  padding: 0.45rem 0.5rem;
+  color: #ffffff;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.hardButton {
+  background: #b91c1c;
+}
+
+.mediumButton {
+  background: #c2410c;
+}
+
+.easyButton {
+  background: #15803d;
+}
+
+.reviewActions button:hover {
+  filter: brightness(1.05);
 }
 
 @media (max-width: 640px) {
