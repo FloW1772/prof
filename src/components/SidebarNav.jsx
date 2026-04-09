@@ -4,6 +4,7 @@ import styles from './SidebarNav.module.css'
 const links = [
   { to: '/', label: 'Home', end: true },
   { to: '/learn', label: 'Learn' },
+  { to: '/flashcards', label: 'Flashcards' },
 ]
 
 function SidebarNav() {
