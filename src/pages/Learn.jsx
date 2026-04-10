@@ -4,6 +4,7 @@ import { useLocation } from 'react-router-dom'
 import { useMistral } from '../hooks/useMistral'
 import { getSystemPromptByMode, LEARNING_MODES } from '../services/prompts'
 import { buildSessionFromMessages, saveSession } from '../services/sessions'
+import { recordStudyActivity } from '../services/dashboard'
 import { useAppContext } from '../store/AppContext'
 import styles from './Learn.module.css'
 
@@ -65,6 +66,7 @@ function Learn() {
     const updatedMessages = [...messages, userMessage]
     setMessages(updatedMessages)
     setInput('')
+    recordStudyActivity()
 
     try {
       const mistralMessages = updatedMessages.map((message) => ({

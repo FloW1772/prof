@@ -17,7 +17,7 @@ function SessionSidebar() {
 
   const handleRestore = (session) => {
     setSelectedSubject(session.subject ? { name: session.subject, emoji: '📚' } : null)
-    navigate('/learn', { state: { restoredSession: { ...session, token: Date.now() } } })
+    navigate('/learn', { state: { restoredSession: session } })
   }
 
   const handleDelete = (event, sessionId) => {

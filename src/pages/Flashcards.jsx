@@ -1,6 +1,12 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useMistral } from '../hooks/useMistral'
-import { applySm2Review, ensureCardScheduling, isDueToday, sortByDueFirst } from '../services'
+import {
+  applySm2Review,
+  ensureCardScheduling,
+  isDueToday,
+  recordStudyActivity,
+  sortByDueFirst,
+} from '../services'
 import styles from './Flashcards.module.css'
 
 const STORAGE_KEY = 'prof.flashcards'
@@ -109,6 +115,7 @@ function Flashcards() {
       setCards(nextCards)
       setSavedTopic(normalizedTopic)
       setFlippedIds([])
+      recordStudyActivity()
     } catch (err) {
       if (err instanceof SyntaxError) {
         setParseError('La reponse de Mistral n est pas un JSON valide.')
@@ -138,6 +145,7 @@ function Flashcards() {
     )
 
     setFlippedIds((previous) => previous.filter((id) => id !== cardId))
+    recordStudyActivity()
   }
 
   const handleClearCards = () => {

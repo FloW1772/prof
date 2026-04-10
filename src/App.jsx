@@ -1,13 +1,13 @@
 import { BrowserRouter, Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import MainLayout from './layouts/MainLayout'
+import Dashboard from './pages/Dashboard'
 import HomePage from './pages/HomePage'
 import Learn from './pages/Learn'
 import Flashcards from './pages/Flashcards'
 
 function LearnRoute() {
   const location = useLocation()
-  const restoredSession = location.state?.restoredSession ?? null
-  const restoreKey = restoredSession ? `${restoredSession.id}-${restoredSession.token}` : 'fresh'
+  const restoreKey = location.key || 'fresh'
 
   return <Learn key={restoreKey} />
 }
@@ -17,6 +17,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route element={<MainLayout />}>
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/" element={<HomePage />} />
           <Route path="/learn" element={<LearnRoute />} />
           <Route path="/flashcards" element={<Flashcards />} />

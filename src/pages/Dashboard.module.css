@@ -1,0 +1,240 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  gap: 1rem;
+  padding: 1.4rem;
+  border-radius: 1rem;
+  background: linear-gradient(135deg, #0f172a 0%, #1d4ed8 100%);
+  color: #f8fafc;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.18);
+}
+
+.kicker {
+  margin: 0 0 0.35rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.8rem;
+  color: #bfdbfe;
+}
+
+.title {
+  margin: 0;
+  font-size: clamp(1.8rem, 3vw, 2.4rem);
+}
+
+.subtitle {
+  margin: 0.55rem 0 0;
+  max-width: 42rem;
+  line-height: 1.55;
+  color: #dbeafe;
+}
+
+.streakCard {
+  min-width: 170px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.2rem;
+  padding: 1rem;
+  border-radius: 0.9rem;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  text-align: center;
+}
+
+.streakValue {
+  font-size: 3rem;
+  line-height: 1;
+  font-weight: 800;
+}
+
+.streakLabel {
+  font-size: 0.92rem;
+  color: #dbeafe;
+}
+
+.streakMeta {
+  font-size: 0.8rem;
+  color: #bfdbfe;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.statCard,
+.sectionBlock {
+  background: #ffffff;
+  border: 1px solid #d7dce6;
+  border-radius: 1rem;
+  padding: 1.25rem;
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.05);
+}
+
+.sectionBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  align-items: end;
+}
+
+.sectionTitle {
+  margin: 0;
+  font-size: 1.05rem;
+  color: #0f172a;
+}
+
+.sectionHint {
+  margin: 0;
+  color: #64748b;
+  font-size: 0.92rem;
+}
+
+.loading,
+.motivation,
+.motivationFallback,
+.emptyState {
+  margin: 0;
+  line-height: 1.6;
+  color: #334155;
+}
+
+.loading {
+  color: #475569;
+}
+
+.flashcardNumbers {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.flashcardNumbers > div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
+}
+
+.number {
+  font-size: 1.9rem;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.numberLabel {
+  font-size: 0.86rem;
+  color: #64748b;
+}
+
+.chartBox {
+  width: 100%;
+  min-height: 220px;
+}
+
+.chartBoxLarge {
+  width: 100%;
+}
+
+.sessionsList {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.9rem;
+}
+
+.sessionCard {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  border-radius: 0.9rem;
+  border: 1px solid #dbe3ee;
+  background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+  padding: 1rem;
+}
+
+.sessionHeader {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.sessionSubject {
+  margin: 0 0 0.2rem;
+  color: #2563eb;
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.sessionTitle {
+  margin: 0;
+  color: #0f172a;
+  font-size: 0.98rem;
+  line-height: 1.4;
+}
+
+.sessionMode {
+  align-self: flex-start;
+  padding: 0.25rem 0.5rem;
+  border-radius: 999px;
+  background: #dbeafe;
+  color: #1d4ed8;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: capitalize;
+  flex-shrink: 0;
+}
+
+.sessionMeta {
+  margin: 0;
+  color: #64748b;
+  font-size: 0.85rem;
+}
+
+.sessionLink {
+  margin-top: auto;
+  align-self: flex-start;
+  text-decoration: none;
+  border-radius: 0.7rem;
+  background: #2563eb;
+  color: #ffffff;
+  font-weight: 700;
+  padding: 0.6rem 0.85rem;
+}
+
+.sessionLink:hover {
+  background: #1d4ed8;
+}
+
+@media (max-width: 1024px) {
+  .statsGrid,
+  .sessionsList {
+    grid-template-columns: 1fr;
+  }
+
+  .hero {
+    flex-direction: column;
+  }
+
+  .streakCard {
+    align-items: flex-start;
+  }
+}

@@ -2,6 +2,7 @@ import { NavLink } from 'react-router-dom'
 import styles from './SidebarNav.module.css'
 
 const links = [
+  { to: '/dashboard', label: 'Dashboard' },
   { to: '/', label: 'Home', end: true },
   { to: '/learn', label: 'Learn' },
   { to: '/flashcards', label: 'Flashcards' },
