@@ -8,6 +8,12 @@
 .sidebar {
   border-right: 1px solid #d4d9e2;
   background-color: #ffffff;
+  overflow-y: auto;
+}
+
+.sidebarInner {
+  display: flex;
+  flex-direction: column;
 }
 
 .content {

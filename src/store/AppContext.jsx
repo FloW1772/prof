@@ -1,17 +1,24 @@
-import { createContext, useContext, useMemo, useState } from 'react'
+import { createContext, useCallback, useContext, useMemo, useState } from 'react'
 import PropTypes from 'prop-types'
 
 const AppContext = createContext(null)
 
 export function AppProvider({ children }) {
   const [selectedSubject, setSelectedSubject] = useState(null)
+  const [sessionsRefreshToken, setSessionsRefreshToken] = useState(0)
+
+  const notifySessionsChanged = useCallback(() => {
+    setSessionsRefreshToken((previous) => previous + 1)
+  }, [])
 
   const value = useMemo(
     () => ({
       selectedSubject,
       setSelectedSubject,
+      sessionsRefreshToken,
+      notifySessionsChanged,
     }),
-    [selectedSubject]
+    [notifySessionsChanged, selectedSubject, sessionsRefreshToken]
   )
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>
